@@ -81,9 +81,15 @@
         }
         .diagram > .cell:nth-child(1) {
             background-color: brown;
+            color: white;
         }
         .diagram > .cell:nth-child(n+2):nth-child(-n+12) {
             background-color: darkcyan;
+            color: white;
+        }
+        .formula {
+            color: blue;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -121,89 +127,35 @@
     </div>
 
     <p>
+        <span>公式：</span>
+        <span class="formula">V = (-1)<sup>s</sup> * M * 2<sup>E</sup></span>
+    </p>
+
+    <p>
+        <span>type:</span>
+        <span id="type"></span>
+    </p>
+    <p>
+        <span>s:</span>
+        <span id="s"></span>
+    </p>
+    <p>
         <span>e:</span>
         <span id="e"></span>
+    </p>
+    <p>
+        <span>E:</span>
+        <span id="exp"></span>
     </p>
     <p>
         <span>f:</span>
         <span id="f"></span>
     </p>
     <p>
-        <span>E:</span>
-        <span id="exp">e - Bias</span>
+        <span>M:</span>
+        <span id="m"></span>
     </p>
 </div>
-<script>
-    const buffer = new ArrayBuffer(8)
-    const viewInt = new Uint8Array(buffer)
-    const viewFloat = new Float64Array(buffer)
-
-    const btnEl = document.querySelector('#btn')
-    const inputEl = document.querySelector('#input')
-    const bufferViewEl = document.querySelector('#buffer_view')
-    const bitmapEl = document.querySelector('#bitmap')
-    const diagramEl = document.querySelector('#diagram')
-    const eEl = document.querySelector('#e')
-    const fEl = document.querySelector('#f')
-    const expEl = document.querySelector('#exp')
-
-    let e = 0
-    let f = 0
-
-    btnEl.addEventListener('click', function btnClick(e) {
-        e.preventDefault()
-        parse()
-    }, false)
-
-    function parse() {
-        const value = parseFloat(inputEl.value)
-        console.log(value)
-        viewFloat[0] = value
-        console.log(viewInt)
-        const hex = uint8ArrayToHex()
-        console.log(hex)
-        bufferViewEl.textContent = hex
-        const bitmap = hex2bin(hex)
-        bitmapEl.textContent = bitmap
-        drawDiagramCell(bitmap)
-    }
-
-    function uint8ArrayToHex() {
-        const result = []
-        for (let i = viewInt.length-1; i >= 0; i--) {
-            result.push(('0' + viewInt[i].toString(16)).slice(-2))
-        }
-        return '0X' + result.join('')
-    }
-    function hex2bin(hex) {
-        hex = hex.replace('0X', '')
-        console.log(hex)
-        let bin = '0B'
-        hex.split('').forEach(digit => {
-            bin += ('0000' + parseInt(digit, 16).toString(2)).slice(-4)
-        })
-        return bin
-    }
-    function drawDiagramCell(bitmap) {
-        bitmap = bitmap.replace('0B', '')
-        diagramEl.innerHTML = ''
-        console.log(bitmap)
-        bitmap.split('').forEach(digit => {
-            const cellEl = document.createElement('div')
-            cellEl.textContent = digit
-            cellEl.className = 'cell'
-            diagramEl.appendChild(cellEl)
-        })
-        e = bitmap.slice(1, 12)
-        f = bitmap.slice(12)
-        eEl.textContent = '0B'+e
-        fEl.textContent = '0B'+f
-        expEl.textContent = `e - Bias = ${bin2dec(e)} - 1023 = ${bin2dec(e)-1023}`
-    }
-    function bin2dec(bin) {
-        bin = bin.replace('0B', '')
-        return parseInt(bin, 2)
-    }
-</script>
+<script src="index.js"></script>
 </body>
 </html>
