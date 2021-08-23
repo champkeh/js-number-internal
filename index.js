@@ -61,9 +61,9 @@ function parse(value) {
         }
     } else if (!e.includes('1')) {
         // 指数位全为0
-        type = '非规格化的'
+        type = 'denormalized'
     } else {
-        type = '规格化的'
+        type = 'normalized'
     }
 
     typeEl.textContent = type
@@ -71,10 +71,10 @@ function parse(value) {
     eEl.innerHTML = `${formatter.toBin2(e)} = ${bin2dec(e)}`
     fEl.innerHTML = formatter.toBin2(f)
 
-    if (type === '规格化的') {
+    if (type === 'normalized') {
         expEl.textContent = `e - Bias = ${bin2dec(e)} - 1023 = ${bin2dec(e) - 1023}`
         mEl.innerHTML = `1.${formatter.toBin2(f)} (${binf2decf('1.' + f)})`
-    } else if (type === '非规格化的') {
+    } else if (type === 'denormalized') {
         expEl.textContent = `1 - Bias = 1 - 1023 = ${1 - 1023}`
         mEl.innerHTML = `0.${formatter.toBin2(f)} (${binf2decf('0.' + f)})`
     }
