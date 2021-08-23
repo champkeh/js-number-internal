@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number Internal</title>
+    <style>
+        html {
+            background-color: antiquewhite;
+        }
+        body {
+            padding: 10px 30px;
+            width: 902px;
+            margin: 50px auto;
+            background-color: aliceblue;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px 0 #757575;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+        }
+        form label {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding-right: 20px;
+        }
+        form input {
+            flex: 1;
+            padding: 5px 10px;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        form button {
+            padding: 5px 20px;
+            font-size: 16px;
+        }
+        .box {
+            border: 1px solid darkcyan;
+            border-radius: 4px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            margin: 20px 0;
+        }
+        .const {
+            position: relative;
+        }
+        .const::before {
+            content: "parameter(64bit)";
+            position: absolute;
+            right: 20px;
+            color: brown;
+        }
+        .result {
+            position: relative;
+        }
+        .result::before {
+            content: "result";
+            position: absolute;
+            right: 20px;
+            color: brown;
+        }
+        .diagram {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .diagram .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            box-sizing: border-box;
+            font-size: 18px;
+            padding: 5px;
+            border: 1px solid #757575;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+        .diagram > .cell:nth-child(1) {
+            background-color: brown;
+        }
+        .diagram > .cell:nth-child(n+2):nth-child(-n+12) {
+            background-color: darkcyan;
+        }
+    </style>
+</head>
+<body>
+<h1>JavaScript Number Internal</h1>
+<form class="box">
+    <label>Number: <input id="input" type="text"></label>
+    <button id="btn">Inspect</button>
+</form>
+<div class="const box">
+    <p>
+        <span>k = </span>
+        <span>11</span>
+    </p>
+    <p>
+        <span>n = </span>
+        <span>52</span>
+    </p>
+    <p>
+        <span>Bias = </span>
+        <span>2<sup>k-1</sup>-1 = 1023</span>
+    </p>
+</div>
+<div class="result box">
+    <p>
+        <span>Buffer View:</span>
+        <span id="buffer_view"></span>
+    </p>
+    <p>
+        <span>Bitmap:</span>
+        <span id="bitmap"></span>
+    </p>
+
+    <div id="diagram" class="diagram">
+    </div>
+
+    <p>
+        <span>e:</span>
+        <span id="e"></span>
+    </p>
+    <p>
+        <span>f:</span>
+        <span id="f"></span>
+    </p>
+    <p>
+        <span>E:</span>
+        <span id="exp">e - Bias</span>
+    </p>
+</div>
+<script>
+    const buffer = new ArrayBuffer(8)
+    const viewInt = new Uint8Array(buffer)
+    const viewFloat = new Float64Array(buffer)
+
+    const btnEl = document.querySelector('#btn')
+    const inputEl = document.querySelector('#input')
+    const bufferViewEl = document.querySelector('#buffer_view')
+    const bitmapEl = document.querySelector('#bitmap')
+    const diagramEl = document.querySelector('#diagram')
+    const eEl = document.querySelector('#e')
+    const fEl = document.querySelector('#f')
+    const expEl = document.querySelector('#exp')
+
+    let e = 0
+    let f = 0
+
+    btnEl.addEventListener('click', function btnClick(e) {
+        e.preventDefault()
+        parse()
+    }, false)
+
+    function parse() {
+        const value = parseFloat(inputEl.value)
+        console.log(value)
+        viewFloat[0] = value
+        console.log(viewInt)
+        const hex = uint8ArrayToHex()
+        console.log(hex)
+        bufferViewEl.textContent = hex
+        const bitmap = hex2bin(hex)
+        bitmapEl.textContent = bitmap
+        drawDiagramCell(bitmap)
+    }
+
+    function uint8ArrayToHex() {
+        const result = []
+        for (let i = viewInt.length-1; i >= 0; i--) {
+            result.push(('0' + viewInt[i].toString(16)).slice(-2))
+        }
+        return '0X' + result.join('')
+    }
+    function hex2bin(hex) {
+        hex = hex.replace('0X', '')
+        console.log(hex)
+        let bin = '0B'
+        hex.split('').forEach(digit => {
+            bin += ('0000' + parseInt(digit, 16).toString(2)).slice(-4)
+        })
+        return bin
+    }
+    function drawDiagramCell(bitmap) {
+        bitmap = bitmap.replace('0B', '')
+        diagramEl.innerHTML = ''
+        console.log(bitmap)
+        bitmap.split('').forEach(digit => {
+            const cellEl = document.createElement('div')
+            cellEl.textContent = digit
+            cellEl.className = 'cell'
+            diagramEl.appendChild(cellEl)
+        })
+        e = bitmap.slice(1, 12)
+        f = bitmap.slice(12)
+        eEl.textContent = '0B'+e
+        fEl.textContent = '0B'+f
+        expEl.textContent = `e - Bias = ${bin2dec(e)} - 1023 = ${bin2dec(e)-1023}`
+    }
+    function bin2dec(bin) {
+        bin = bin.replace('0B', '')
+        return parseInt(bin, 2)
+    }
+</script>
+</body>
+</html>
