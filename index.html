@@ -2,96 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Number Internal</title>
-    <style>
-        html {
-            background-color: antiquewhite;
-        }
-        body {
-            padding: 10px 30px;
-            width: 902px;
-            margin: 50px auto;
-            background-color: aliceblue;
-            border-radius: 8px;
-            box-shadow: 0 5px 10px 0 #757575;
-            box-sizing: border-box;
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            display: flex;
-        }
-        form label {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding-right: 20px;
-        }
-        form input {
-            flex: 1;
-            padding: 5px 10px;
-            font-size: 18px;
-            margin-left: 10px;
-        }
-        form button {
-            padding: 5px 20px;
-            font-size: 16px;
-        }
-        .box {
-            border: 1px solid darkcyan;
-            border-radius: 4px;
-            padding: 10px 20px;
-            box-sizing: border-box;
-            margin: 20px 0;
-        }
-        .const {
-            position: relative;
-        }
-        .const::before {
-            content: "parameter(64bit)";
-            position: absolute;
-            right: 20px;
-            color: brown;
-        }
-        .result {
-            position: relative;
-        }
-        .result::before {
-            content: "result";
-            position: absolute;
-            right: 20px;
-            color: brown;
-        }
-        .diagram {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .diagram .cell {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 20px;
-            box-sizing: border-box;
-            font-size: 18px;
-            padding: 5px;
-            border: 1px solid #757575;
-            margin-right: 5px;
-            margin-top: 5px;
-        }
-        .diagram > .cell:nth-child(1) {
-            background-color: brown;
-            color: white;
-        }
-        .diagram > .cell:nth-child(n+2):nth-child(-n+12) {
-            background-color: darkcyan;
-            color: white;
-        }
-        .formula {
-            color: blue;
-            font-weight: bold;
-        }
-    </style>
+    <title>JavaScript Number Internal</title>
+    <meta name="keywords" content="IEEE754,JavaScript,Number,Float,Double">
+    <meta name="description" content="IEEE 754 数据内部表示">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>JavaScript Number Internal</h1>
@@ -144,12 +58,12 @@
         <span id="e"></span>
     </p>
     <p>
-        <span>E:</span>
-        <span id="exp"></span>
-    </p>
-    <p>
         <span>f:</span>
         <span id="f"></span>
+    </p>
+    <p>
+        <span>E:</span>
+        <span id="exp"></span>
     </p>
     <p>
         <span>M:</span>
@@ -157,5 +71,11 @@
     </p>
 </div>
 <script src="index.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const btn = document.querySelector('#btn')
+        btn.click()
+    })
+</script>
 </body>
 </html>
