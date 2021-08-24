@@ -68,6 +68,9 @@ function parse(value) {
     }
 
     typeEl.textContent = type
+    if (type === 'NaN') {
+        typeEl.innerHTML = `${type} <span style="color:red;">(NaN并不对应唯一的位模式，当前这个位模式取决于具体实现)</span>`
+    }
     sEl.textContent = s + (s === '0' ? ' (+)' : ' (-)')
     eEl.innerHTML = `${formatter.toBin2(e)} = ${bin2dec(e)}`
     fEl.innerHTML = formatter.toBin2(f)
@@ -155,7 +158,9 @@ function floatPoint(M, E) {
     // console.log(`M: ${M}`)
     // console.log(`E: ${E}`)
     let mArray = M.split('')
-    if (E < 0) {
+    if (E > 52) {
+        mArray = (M + '0'.repeat(E-51)).split('')
+    } else if (E < 0) {
         mArray = ('0'.repeat(-E) + M).split('')
     }
     if (E > 0) {
