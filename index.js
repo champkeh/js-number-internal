@@ -13,6 +13,7 @@ const eEl = document.querySelector('#e')
 const expEl = document.querySelector('#exp')
 const fEl = document.querySelector('#f')
 const mEl = document.querySelector('#m')
+const actualEl = document.querySelector('#actual')
 
 
 btnEl.addEventListener('click', function (e) {
@@ -71,12 +72,21 @@ function parse(value) {
     eEl.innerHTML = `${formatter.toBin2(e)} = ${bin2dec(e)}`
     fEl.innerHTML = formatter.toBin2(f)
 
+    let M, E
     if (type === 'normalized') {
-        expEl.textContent = `e - Bias = ${bin2dec(e)} - 1023 = ${bin2dec(e) - 1023}`
-        mEl.innerHTML = `1.${formatter.toBin2(f)} (${binf2decf('1.' + f)})`
+        M = `1.${f}`
+        E = bin2dec(e) - 1023
+        expEl.textContent = `e - Bias = ${bin2dec(e)} - 1023 = ${E}`
+        mEl.innerHTML = `${formatter.toBin2(M)} (${binf2decf(M)})`
     } else if (type === 'denormalized') {
-        expEl.textContent = `1 - Bias = 1 - 1023 = ${1 - 1023}`
-        mEl.innerHTML = `0.${formatter.toBin2(f)} (${binf2decf('0.' + f)})`
+        M = `0.${f}`
+        E = 1 - 1023
+        expEl.textContent = `1 - Bias = 1 - 1023 = ${E}`
+        mEl.innerHTML = `${formatter.toBin2(M)} (${binf2decf(M)})`
+    }
+    if (['normalized', 'denormalized'].includes(type)) {
+        // actualEl.innerHTML = `${formatter.toBin2(floatPoint(M, E))} (${binf2decf(floatPoint(M, E))})`
+        actualEl.innerHTML = `${formatter.toBin2(floatPoint(M, E))}`
     }
 }
 
@@ -126,12 +136,48 @@ function bin2dec(bin) {
  */
 function binf2decf(bin) {
     const parts = bin.split('.')
-    console.log(parts)
+    // console.log(parts)
 
     const f = parts[1].split('').reduce((acc, cur, idx) => {
         return acc + Number(cur) * 2 ** (-idx-1)
     }, 0)
-    console.log(f)
+    // console.log(f)
 
     return Number(parts[0]) + f
+}
+
+/**
+ * 浮动小数点
+ * @param M 尾数
+ * @param E 阶码
+ */
+function floatPoint(M, E) {
+    // console.log(`M: ${M}`)
+    // console.log(`E: ${E}`)
+    let mArray = M.split('')
+    if (E < 0) {
+        mArray = ('0'.repeat(-E) + M).split('')
+    }
+    if (E > 0) {
+        // 向右移动小数点
+        for (let i = 0; i < E; i++) {
+            swap(mArray, i+1, i+2)
+        }
+        return mArray.join('')
+    } else if (E < 0) {
+        // 向左移动小数点
+        for (let i = -E; i > 0; i--) {
+            swap(mArray, i, i+1)
+        }
+        return mArray.join('')
+    } else {
+        // 不需要移动
+        return M
+    }
+}
+
+function swap(arr, i, j) {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
 }

@@ -35,6 +35,9 @@ form button {
     padding: 5px 20px;
     font-size: 16px;
 }
+#actual {
+    word-break: break-all;
+}
 .box {
     border: 1px solid darkcyan;
     border-radius: 4px;
