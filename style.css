@@ -16,6 +16,11 @@ h1 {
 p {
     margin: 10px 0;
 }
+.fork {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
 form {
     display: flex;
 }
