@@ -13,6 +13,9 @@ body {
 h1 {
     text-align: center;
 }
+p {
+    margin: 10px 0;
+}
 form {
     display: flex;
 }
@@ -73,6 +76,7 @@ form button {
     border: 1px solid #757575;
     margin-right: 5px;
     margin-top: 30px;
+    margin-bottom: 20px;
 }
 .diagram > .cell:nth-child(1) {
     background-color: brown;
@@ -85,59 +89,149 @@ form button {
 .diagram > .cell:nth-child(1)::before {
     content: "63";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(16)::before {
     content: "48";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(17)::before {
     content: "47";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(32)::before {
     content: "32";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(33)::before {
     content: "31";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(48)::before {
     content: "16";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(49)::before {
     content: "15";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
 .diagram > .cell:nth-child(64)::before {
     content: "0";
     position: absolute;
-    top: -20px;
+    top: -25px;
     color: blue;
     font-size: 14px;
 }
+
+.diagram > .cell:nth-child(1)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(9)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(17)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(25)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(33)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(41)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(49)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+.diagram > .cell:nth-child(57)::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 10;
+    left: -4px;
+    width: 198px;
+    height: 135%;
+    background-color: transparent;
+    border: 1px dashed brown;
+}
+
 .formula {
     color: blue;
     font-weight: bold;
