@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Number Internal</title>
+    <meta name="keywords" content="IEEE754,JavaScript,Number,Float,Double">
+    <meta name="description" content="IEEE 754 数据内部表示">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>JavaScript Number Internal</h1>
+<form class="box">
+    <label>Number: <input id="input" type="text"></label>
+    <button id="btn">Inspect</button>
+</form>
+<div class="const box">
+    <p>
+        <span>k = </span>
+        <span>11</span>
+    </p>
+    <p>
+        <span>n = </span>
+        <span>52</span>
+    </p>
+    <p>
+        <span>Bias = </span>
+        <span>2<sup>k-1</sup>-1 = 1023</span>
+    </p>
+    <p>
+        <span>formula：</span>
+        <span class="formula">V = (-1)<sup>s</sup> * M * 2<sup>E</sup></span>
+    </p>
+</div>
+<div class="result box">
+    <p>
+        <span>Buffer View:</span>
+        <span id="buffer_view"></span>
+    </p>
+    <p>
+        <span>Bitmap:</span>
+        <span id="bitmap"></span>
+    </p>
+
+    <div id="diagram" class="diagram">
+    </div>
+
+    <p>
+        <span>category:</span>
+        <span id="type"></span>
+    </p>
+    <p>
+        <span>s:</span>
+        <span id="s"></span>
+    </p>
+    <p>
+        <span>e:</span>
+        <span id="e"></span>
+    </p>
+    <p>
+        <span>f:</span>
+        <span id="f"></span>
+    </p>
+    <p>
+        <span>E:</span>
+        <span id="exp"></span>
+    </p>
+    <p>
+        <span>M:</span>
+        <span id="m"></span>
+    </p>
+    <p>
+        <span>Actual Number:</span>
+        <span id="actual"></span>
+    </p>
+</div>
+<a class="fork" href="https://github.com/champkeh/js-number-internal"><img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+<script src="index.js"></script>
+<script>
+    function parseQuery() {
+        const queries = window.location.search.replace(/^\?/, '').split('&').filter(q => q !== '').reduce((o, q) => {
+            const parts = q.split('=')
+            o[parts[0]] = parts[1]
+            return o
+        }, Object.create(null))
+        return queries
+    }
+    window.addEventListener('load', function () {
+        const btnEl = document.querySelector('#btn')
+        const inputEl = document.querySelector('#input')
+
+        const {val = '12'} = parseQuery()
+        inputEl.value = val
+        btnEl.click()
+    })
+</script>
+</body>
+</html>
