@@ -96,3 +96,11 @@ function swap(arr, i, j) {
     arr[j] = temp
 }
 
+export function parseQuery() {
+    const queries = window.location.search.replace(/^\?/, '').split('&').filter(q => q !== '').reduce((o, q) => {
+        const parts = q.split('=')
+        o[parts[0]] = parts[1]
+        return o
+    }, Object.create(null))
+    return queries
+}

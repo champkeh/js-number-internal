@@ -1,16 +1,19 @@
 <script>
+    import {onMount} from 'svelte'
+    import {parseQuery} from './utils'
     import Form from './Form.svelte'
     import Params from './Params.svelte'
     import Result from "./Result.svelte"
-    // let size = 64
-    // let sizeOptions = [32, 64]
-    // let number = 12
+
     let bit
     let value
 
+    onMount(() => {
+        const {val = 37} = parseQuery()
+        value = val
+    })
 
     function inspect(e) {
-        console.log(e.detail)
         bit = e.detail.bit
         value = e.detail.value
     }
@@ -18,9 +21,9 @@
 
 <h1>IEEE754 Number Internal</h1>
 
-<Form on:inspect={inspect}/>
+<Form bind:value on:inspect={inspect}/>
 
-<Params bind:bit/>
+<Params {bit}/>
 
 <Result {value}/>
 

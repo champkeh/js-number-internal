@@ -2,7 +2,7 @@
     import {createEventDispatcher} from 'svelte'
 
     export let bit = 32
-    export let value = 12
+    export let value
 
     const bitOptions = [32, 64]
 
@@ -21,7 +21,7 @@
             {/each}
         </select>
     </label>
-    <label>Number: <input type="number" bind:value={value}></label>
+    <label>Number: <input type="text" bind:value={value}></label>
     <button on:click|preventDefault={inspect}>Inspect</button>
 </form>
 
